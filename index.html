@@ -1,1 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .tic-tac-toe {
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin: 10px;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            width: 310px;
+            margin: 0 auto;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            border: 1px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .cell[data-cell]:hover {
+            background-color: #eee;
+        }
+
+        .cell.x {
+            color: #FF5733; /* You can choose any color you like */
+            font-weight: bold;
+        }
+
+        .cell.o {
+            color: #3498db; /* You can choose any color you like */
+            font-weight: bold;
+        }
+
+        .overlay-line {
+            position: absolute;
+            width: 4px;
+            height: 310px;
+            background-color: #000;
+            transform: rotate(45deg);
+            top: 45px;
+            left: 110px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .winner {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="tic-tac-toe">
+        <h1>Tic Tac Toe</h1>
+        <div class="board">
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+        </div>
+        <div class="overlay-line"></div>
+    </div>
+    <script>
+        const cells = document.querySelectorAll('.cell');
+        const overlayLine = document.querySelector('.overlay-line');
+        let currentPlayer = 'X';
+        let gameOver = false;
+
+        function checkWinner() {
+            const winningCombos = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            for (const combo of winningCombos) {
+                const [a, b, c] = combo;
+                if (
+                    cells[a].textContent &&
+                    cells[a].textContent === cells[b].textContent &&
+                    cells[a].textContent === cells[c].textContent
+                ) {
+                    gameOver = true;
+                    overlayLine.classList.add('winner');
+                }
+            }
+        }
+
+        cells.forEach((cell) => {
+            cell.addEventListener('click', () => {
+                if (!gameOver && !cell.textContent) {
+                    cell.textContent = currentPlayer;
+                    cell.classList.add(currentPlayer.toLowerCase());
+                    checkWinner();
+
+                    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
 
