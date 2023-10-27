@@ -1,2 +1,2 @@
 # opensource
-its for creating final project for open source subject
+it is a web based tic tac toe game 
